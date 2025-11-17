@@ -23,6 +23,16 @@ def cargar_datos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal):
         while sede.lower()!="caballito" and sede.lower()!="flores" and sede.lower()!="fin":
             sede=str(input("ERROR: Ingrese la sede: "))
 
+#Funcion print arreglos
+def print_arreglos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal,titulo):
+    print (titulo)
+    for i in range (len(arr_sede)):
+        print (f"sede donde se vendio: {arr_sede[i]}| nroentrada: {arr_nroentrada[i]}| cantidad de personas por la entrada: {arr_personasentrada[i]}| precio total de la entrada: {arr_preciototal[i]}")
+    
+
+
+
+
 #Funcion que suma las personas segun sede
 def suma_sede(arr_personasentrada,arr_sede, a):
     sumador=0
@@ -36,16 +46,15 @@ def promedio_personas(arr_personasentrada):
     contador=0
     divisor=len(arr_personasentrada)
     for i in range (divisor):
-        contador= contador + arr_personasentrada[i] 
-        i= i + 1       
+        contador= contador + arr_personasentrada[i]        
     contador=contador/divisor
     return contador
 
 #Funcion que busca la entrada con el precio mas alto
 def precio_mas_alto(arr_preciototal):
-    max=0
+    max=arr_preciototal[0]
     posicionmaxima=0
-    for i in range (len(arr_preciototal)):
+    for i in range (1, len(arr_preciototal)):
         if max<arr_preciototal[i]:
             max=arr_preciototal[i]
             posicionmaxima=i
@@ -62,7 +71,7 @@ def busqueda_entrada_diez(arr_personasentrada):
 #Funcion que ordena los datos por el numero identificativo
 def ordenamiento_datos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal):
     for i in range (0, len(arr_nroentrada) -1, 1):
-        for j in range (i + 1, len(arr_nroentrada, 1)):
+        for j in range (i + 1, len(arr_nroentrada), 1):
             if arr_nroentrada[i]>arr_nroentrada[j]:
                 
                 auxentrada=arr_nroentrada[j]
@@ -94,25 +103,35 @@ arr_preciototal=[]
 cargar_datos(arr_nroentrada, arr_sede, arr_personasentrada, arr_preciototal)
 
 
+if len(arr_sede)>=1:
+    #Imprimir el array default
+    print_arreglos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal,"imprimir el array segun carga")
+    
+    
+    # Imprimir la suma por sede
+    personascaballito=suma_sede(arr_personasentrada,arr_sede,"caballito")
+    personasflores=suma_sede(arr_personasentrada,arr_sede,"flores")
+    print (f"En caballito hubo un total de {personascaballito} personas")
+    print (f"En flores hubo un total de {personasflores} personas")
 
-# Imprimir la suma por sede
-personascaballito=suma_sede(arr_personasentrada,arr_sede,"caballito")
-personasflores=suma_sede(arr_personasentrada,arr_sede,"flores")
-print (f"En caballito hubo un total de {personascaballito} personas")
-print (f"En flores hubo un total de {personasflores} personas")
+    # Imprimir el promedio por entrada
+    promediototal=promedio_personas(arr_personasentrada)
+    print (f"El promedio total de personas por entradas es de {promediototal}")
 
-# Imprimir el promedio por entrada
-promediototal=promedio_personas(arr_personasentrada)
-print (f"El promedio total de personas por entradas es de {promediototal}")
+    #Imprimir el precio de entrada mas alto y su sede
+    posicionmaxima=precio_mas_alto(arr_preciototal)
+    print (f"La entrada con mayor precio fue la entrada {arr_nroentrada[posicionmaxima]} con un precio de {arr_preciototal[posicionmaxima]} en la sede de {arr_sede[posicionmaxima]}")
 
-#Imprimir el precio de entrada mas alto y su sede
-posicionmaxima=precio_mas_alto(arr_preciototal)
-print (f"La entrada con mayor precio fue la entrada {arr_nroentrada[posicionmaxima]} con un precio de {arr_preciototal[posicionmaxima]} en la sede de {arr_sede[posicionmaxima]}")
+    #Imprimir datos de entrada para 10 personas
+    entrada10=busqueda_entrada_diez(arr_personasentrada)
+    if entrada10<(len(arr_personasentrada)):
+        print (f"La entrada con 10 personas es la {arr_nroentrada[entrada10]},valio {arr_preciototal[entrada10]} y se vendio en la sede {arr_sede[entrada10]} ")
 
-#Imprimir datos de entrada para 10 personas
-entrada10=busqueda_entrada_diez(arr_personasentrada)
-if entrada10<(len(arr_personasentrada)):
-    print (f"La entrada con 10 personas es la {arr_nroentrada[entrada10]},valio {arr_preciototal[entrada10]} y se vendio en la sede {arr_sede[entrada10]} ")
+    #Ordenar datos
+    ordenamiento_datos(arr_nroentrada, arr_sede, arr_personasentrada, arr_preciototal)  
 
-#Ordenar datos
-ordenamiento_datos(arr_nroentrada, arr_sede, arr_personasentrada, arr_preciototal)
+    #imprimir el array luego de cambios
+    print_arreglos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal,"imprimir el array luego de ordenado")
+
+else:
+    print ("No se cargaron datos")
