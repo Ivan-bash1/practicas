@@ -5,7 +5,7 @@ def cargar_datos(arr_nroentrada,arr_sede,arr_personasentrada,arr_preciototal):
         sede=str(input("ERROR: Ingrese la sede: "))
     while sede.lower()!="fin":
         nro=int(input("Ingrese el numero identificativo de la entrada: "))
-        while nro>=500 and nro<=1:
+        while nro>500 or nro<1:
             nro=int(input("ERROR: Ingrese el numero identificativo de la entrada: "))
         personas=int(input("Ingrese el numero de personas incluidas en la entrada: "))
         while personas<=0:
@@ -36,8 +36,8 @@ def promedio_personas(arr_personasentrada):
     contador=0
     divisor=len(arr_personasentrada)
     for i in range (divisor):
-        i= i + 1
-        contador= contador + arr_personasentrada[i]    
+        contador= contador + arr_personasentrada[i] 
+        i= i + 1       
     contador=contador/divisor
     return contador
 
@@ -45,7 +45,7 @@ def promedio_personas(arr_personasentrada):
 def precio_mas_alto(arr_preciototal):
     max=0
     posicionmaxima=0
-    for i in range (arr_preciototal):
+    for i in range (len(arr_preciototal)):
         if max<arr_preciototal[i]:
             max=arr_preciototal[i]
             posicionmaxima=i
@@ -96,8 +96,8 @@ cargar_datos(arr_nroentrada, arr_sede, arr_personasentrada, arr_preciototal)
 
 
 # Imprimir la suma por sede
-personascaballito=(arr_personasentrada,arr_sede,"caballito")
-personasflores=(arr_personasentrada,arr_sede,"flores")
+personascaballito=suma_sede(arr_personasentrada,arr_sede,"caballito")
+personasflores=suma_sede(arr_personasentrada,arr_sede,"flores")
 print (f"En caballito hubo un total de {personascaballito} personas")
 print (f"En flores hubo un total de {personasflores} personas")
 
