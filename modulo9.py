@@ -73,12 +73,7 @@
 
 #cargardatos(arrayidiomascursados,arraynrosidentificación,arrayedadestudiante)
 
-arrayidiomascursados=[]
-arraynrosidentificación=[]
-arrayedadestudiantes=[]
-
-
-
+#Funcion para cargar los datos pedidos
 def cargardatosinsistir(arrayidiomascursados,arraynrosidentificación,arrayedadestudiantes):
     idiomacursada=str(input("Ingrese el idioma cursado: "))
     while idiomacursada.lower()!="i" and idiomacursada.lower()!="p" and idiomacursada.lower()!="t" and idiomacursada.lower()!="stop":
@@ -122,48 +117,92 @@ def estudiante_mas_joven (arrayedadestudiantes):
     posicionminima=0
     for i in range (1, len(arrayedadestudiantes)):
         if minimaedad>arrayedadestudiantes[i]:
-            minimaedad=arrayedadestudiantes
+            minimaedad=arrayedadestudiantes[i]
             posicionminima=i
     return posicionminima
 
 #Buscar el estudiante con id 1000(punto d)
 def busqueda_estudiante_1000(arraynrosidentificación):
     valorbuscado=1000
-    posicionbuscado=0
-    for i in range (len(valorbuscado)):
-        if arraynrosidentificación[i]==valorbuscado:
-            posicionbuscado=i
-    return posicionbuscado
+    i=0
+    while (i <len(arraynrosidentificación)) and arraynrosidentificación[i]!=valorbuscado :
+        i=+1
+    return i
+
+#Encontrar al estudiante mas viejo, luego se van a borrar sus datos
+def busqueda_estudiante_viejo(arrayedadestudiantes):
+    maxedad=arrayedadestudiantes[0]
+    posicionmaxima=0
+    for i in range (1, len(arrayedadestudiantes)):
+         if maxedad<arrayedadestudiantes[i]:        
+             maxedad=arrayedadestudiantes[i]
+             posicionmaxima=i
+    return posicionmaxima
+
+def intercambiar_datos_por_edad(arrayedadestudiantes,arrayidiomascursados,arraynrosidentificación):
+    for i in range (0, len (arrayedadestudiantes) -1, 1):
+        for j in range (i + 1, len(arrayedadestudiantes), 1):
+            if arrayedadestudiantes[j]<arrayedadestudiantes[i]:
+                
+                aux_edad=arrayedadestudiantes[j]
+                arrayedadestudiantes[j]=arrayedadestudiantes[i]
+                arrayedadestudiantes[i]=aux_edad
+
+                aux_nombres=arraynrosidentificación[j]
+                arraynrosidentificación[j]=arraynrosidentificación[i]
+                arraynrosidentificación[i]=aux_nombres
+
+                aux_idiomas=arrayidiomascursados[j]
+                arrayidiomascursados[j]=arrayidiomascursados[i]
+                arrayidiomascursados[i]=aux_idiomas
+
 
 
 
 
 
 ##EJECUCIÓN GENERAL
+arrayidiomascursados=[]
+arraynrosidentificación=[]
+arrayedadestudiantes=[]
+
+#iniciar el programa
+cargardatosinsistir(arrayidiomascursados,arraynrosidentificación,arrayedadestudiantes)
+
+if len(arrayedadestudiantes)!=0:
+    #mostrar el promedio de edades
+    acumulador=calcular_promedio_edad(arrayedadestudiantes)
+    print (f"El promedio de todas las edades de la univerisdad es de {acumulador}")
 
 
-#mostrar el promedio de edades
-acumulador=calcular_promedio_edad(arrayedadestudiantes)
-print (f"El promedio de todas las edades de la univerisdad es de {acumulador}")
+    #mostrar la edad por materia
+    edad_i=suma_edades(arrayedadestudiantes,arrayidiomascursados,"i")
+    print (f"La suma de las edades de ingles es de {edad_i}")
+
+    edad_p=suma_edades(arrayedadestudiantes,arrayidiomascursados,"p")
+    print (f"La suma de las edades de portugues es {edad_p}")
+
+    edad_t=suma_edades(arrayedadestudiantes,arrayidiomascursados,"t")
+    print (f"La suma de las edades de italiano es {edad_t} ")
 
 
-#mostrar la edad por materia
-edad_i=suma_edades(arrayedadestudiantes,arrayidiomascursados,"i")
-print (f"La suma de las edades de ingles es de {edad_i}")
-
-edad_p=suma_edades(arrayedadestudiantes,arrayidiomascursados,"p")
-print (f"La suma de las edades de portugues es {edad_p}")
-
-edad_t=suma_edades(arrayedadestudiantes,arrayidiomascursados,"t")
-print (f"La suma de las edades de italiano es {edad_t} ")
-
-
-#mostrar al estudiante mas joven
-posicionminima=estudiante_mas_joven(arrayedadestudiantes, arrayidiomascursados, arraynrosidentificación)
-print (f"""El numero de identificación del estudiante mas joven es {arraynrosidentificación[posicionminima]} 
+    #mostrar al estudiante mas joven
+    posicionminima=estudiante_mas_joven(arrayedadestudiantes)
+    print (f"""El numero de identificación del estudiante mas joven es {arraynrosidentificación[posicionminima]} 
             tiene {arrayedadestudiantes[posicionminima]} años y estudia {arrayidiomascursados[posicionminima]} """)
 
-#mostrar el estudiante de id 1000
-posicion1000=busqueda_estudiante_1000(arraynrosidentificación)
+    #mostrar el estudiante de id 1000
+    posicion1000=busqueda_estudiante_1000(arraynrosidentificación)
+    if posicion1000<(len(arraynrosidentificación)):
+        print (f"El estudiante con id 1000 estudia {arrayidiomascursados[posicion1000]} y tiene {arrayedadestudiantes[posicion1000]} años ")
+    else:
+        print ("No se encontro el estudiante con id 1000")
 
-print (f"El estudiante con id 1000 estudia {arrayidiomascursados[posicion1000]} y tiene {arrayedadestudiantes[posicion1000]} años ")
+    #Ordenar arreglos
+    intercambiar_datos_por_edad(arrayedadestudiantes,arrayidiomascursados,arraynrosidentificación)
+    #Eliminar el estudiante mas viejo
+    posicionviejo=busqueda_estudiante_viejo(arrayedadestudiantes)
+    arrayedadestudiantes.pop(posicionviejo)
+    arrayidiomascursados.pop(posicionviejo)
+    arraynrosidentificación.pop(posicionviejo)
+
